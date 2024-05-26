@@ -1,4 +1,4 @@
-# Integrales Distrubuidas
+# Integrales Distribuidas
 
 En grupos de 4, diseñar e implementar un sistema de software que permita a los usuarios aproximar integrales definidas utilizando diferentes métodos numéricos. Los estudiantes serán responsables de elegir la estrategia de aproximación que consideren más adecuada, basándose en resultados de pruebas.
 

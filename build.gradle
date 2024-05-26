@@ -9,7 +9,16 @@ repositories {
     mavenCentral()
 }
 
+sourceSets {
+    main {
+        java {
+            srcDirs = ['client/src/main/java', 'server/src/main/java']
+        }
+    }
+}
+
 dependencies {
+    implementation 'net.objecthunter:exp4j:0.4.8' //Library for manage maths expressions
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
