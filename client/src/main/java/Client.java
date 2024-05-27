@@ -42,6 +42,9 @@ public class Client {
                 System.out.println(""+
                     "|| La integral "+integral.toString()+" es aproximadamente: " + res
                 +"");
+
+                String filename = "resultados_integrales.txt";
+                monteCarlo.saveResultsToFile(filename, integral, res);
                 
                 //Hasta aqui, es un set de codigo que debe ser cambiado para distribuido
 

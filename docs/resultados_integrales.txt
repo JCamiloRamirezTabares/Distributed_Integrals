@@ -1,0 +1,3 @@
+| x^4 | entre 1.0 y 2.0, Resultado: 6.172721| x^5 | entre 1.0 y 2.0, Resultado: 10.337769
+| x^6 | entre 1.0 y 2.0, Resultado: 18.141063
+| x^8 | entre 3.0 y 1.0, Resultado: -2185.734456
