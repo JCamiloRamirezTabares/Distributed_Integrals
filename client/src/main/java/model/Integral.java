@@ -1,33 +1,58 @@
 package model;
 
+import net.objecthunter.exp4j.Expression;
+import net.objecthunter.exp4j.ExpressionBuilder;
+
 /*
     Esta clase define lo que es una integral (No tiene en cuenta su solucion)
  */
 public class Integral {
     
-    private long lowerRange;             // Rango inferior de integracion
-    private long upperRange;             // Rango inferior de integracion
-    private MathFunction function;       // La funcion a integrar
+    private String functionnString;         // Representacion en texto de la funcion
+    private double lowerRange;              // Rango inferior de integracion
+    private double upperRange;              // Rango inferior de integracion
+    private MathFunction function;          // La funcion a integrar
 
 
-    public Integral(MathFunction function, long lowerRange, long upperRange){
-        this.function = function;
+    public Integral(String functionnString, double lowerRange, double upperRange){
+        this.functionnString = functionnString;
         this.lowerRange = lowerRange;
         this.upperRange = upperRange;
+
+        this.function = buildFunction(functionnString);
     }
+
+    /*
+        Construye el cuerpo de la integral (La funcion como tal, sin rangos de integracion)
+     */
+   private static MathFunction buildFunction(String function){
+        return (double x) -> {
+          Expression f = new ExpressionBuilder(function)
+                .variables("x")
+                .build()
+                .setVariable("x", x);
+
+            return f.evaluate();
+        };
+   }
 
 
     //Getters y Setters
-    public long getLowerRange(){
+    public double getLowerRange(){
         return lowerRange;
     }
 
-    public long getUpperRange(){
+    public double getUpperRange(){
         return upperRange;
     }
 
     public MathFunction getFunction(){
         return function;
+    }
+
+    @Override
+    public String toString(){
+        return "| "+functionnString + " | entre " + lowerRange + " y " + upperRange;
     }
 
 }

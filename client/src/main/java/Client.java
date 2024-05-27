@@ -1,7 +1,4 @@
 import model.Integral;
-import model.MathFunction;
-import net.objecthunter.exp4j.Expression;
-import net.objecthunter.exp4j.ExpressionBuilder;
 import ui.UIHandler;
 
 /*
@@ -37,7 +34,18 @@ public class Client {
 
 
                 Integral integral = buildIntegral(input, lowerRange, upperRange);
+
+                // Desde aqui
+                MonteCarlo monteCarlo = new MonteCarlo();
+
+                double res = monteCarlo.solve(integral);
+                System.out.println(""+
+                    "|| La integral "+integral.toString()+" es aproximadamente: " + res
+                +"");
                 
+                //Hasta aqui, es un set de codigo que debe ser cambiado para distribuido
+
+
                 /* 
                 // Probando como funciona el exp4j
                 try{
@@ -68,27 +76,15 @@ public class Client {
      */
     private static Integral buildIntegral(String funct, String lwrRange, String upprRange){
 
-        MathFunction function = buildFunction(funct);
-        Long lowerRange = Long.parseLong(lwrRange);
-        Long upperRange = Long.parseLong(upprRange);
+        String function = funct;
+        Double lowerRange = Double.parseDouble(lwrRange);
+        Double upperRange = Double.parseDouble(upprRange);
 
 
         return new Integral(function, lowerRange, upperRange);
     }
     
-    /*
-        Construye el cuerpo de la integral (La funcion como tal, sin rangos de integracion)
-     */
-   private static MathFunction buildFunction(String function){
-        return (double x) -> {
-          Expression f = new ExpressionBuilder(function)
-                .variables("x")
-                .build()
-                .setVariable("x", x);
-
-            return f.evaluate();
-        };
-   }
+    
 
 
 
