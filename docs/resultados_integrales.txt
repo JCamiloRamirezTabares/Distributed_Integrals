@@ -7,3 +7,6 @@
 | x^2 | entre 3.0 y 4.0, Resultado: 12.347588
 | x^5 | entre 4.0 y 6.0, Resultado: 7087.427519
 | x^2 | entre 3.0 y 4.0, Resultado: 12.332609
+| x^2 | entre 2.0 y 3.0, Resultado: 6.320742
+| x^3 | entre 2.0 y 3.0, Resultado: 16.207358
+| x^4 + x^2 | entre 2.0 y 3.0, Resultado: 48.332748

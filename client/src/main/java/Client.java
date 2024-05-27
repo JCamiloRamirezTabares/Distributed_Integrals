@@ -52,15 +52,23 @@ public class Client {
                 // Desde aquí
                 MonteCarlo monteCarlo = new MonteCarlo();
 
+                long startTime = System.nanoTime();
                 double res = monteCarlo.solve(integral);
+                long endTime = System.nanoTime();
+                long executionTime = endTime - startTime;
+                double executionTimeInSeconds = executionTime / 1_000_000_000.0;
+
                 System.out.println(""+
                     "|| La integral " + integral.toString() + " es aproximadamente: " + res
                 + "");
+                System.out.println("|| Tiempo de ejecución: " + executionTimeInSeconds + " segundos");
+
+                double throughput = 1.0 / executionTimeInSeconds;
+                System.out.println("|| Throughput: " + throughput + " integrales por segundo");
                 
-                // Guardar el resultado en un archivo .txt en la carpeta docs
                 String filename = "resultados_integrales.txt";
                 monteCarlo.saveResultsToFile(filename, integral, res);
-                
+
                 // Hasta aquí, es un set de código que debe ser cambiado para distribuido
 
             } else {
