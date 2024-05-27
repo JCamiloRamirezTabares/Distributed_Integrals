@@ -1,6 +1,6 @@
 
  /*
-    Implementar el monte carlo -> Build Random numbers gen, sum
+    Implementar el monte carlo -> Build Random numbers gen, sum         ===> done
     Metricas por parte del cliente (Perfomance)
     Dejar persistencia de las respuestas (Dejar guardadas las respuestas por parte del servidor)
 */ 
