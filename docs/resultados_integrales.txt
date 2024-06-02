@@ -1,12 +1,2 @@
-| x^4 | entre 1.0 y 2.0, Resultado: 6.172721| x^5 | entre 1.0 y 2.0, Resultado: 10.337769
-| x^6 | entre 1.0 y 2.0, Resultado: 18.141063
-| x^8 | entre 3.0 y 1.0, Resultado: -2185.734456
-| x^4 | entre 1.0 y 2.0, Resultado: 6.176817
-| x^9 | entre 2.0 y 1.0, Resultado: -102.413699
-| x^4 | entre 2.0 y 3.0, Resultado: 42.060079
-| x^2 | entre 3.0 y 4.0, Resultado: 12.347588
-| x^5 | entre 4.0 y 6.0, Resultado: 7087.427519
-| x^2 | entre 3.0 y 4.0, Resultado: 12.332609
-| x^2 | entre 2.0 y 3.0, Resultado: 6.320742
-| x^3 | entre 2.0 y 3.0, Resultado: 16.207358
-| x^4 + x^2 | entre 2.0 y 3.0, Resultado: 48.332748
+| x^2 | entre 0.0 y 1.0, es aproximadamente: 0.3323741738158776516488807692583836
+| x^3 | entre 1.0 y 2.0, es aproximadamente: 3.748934119806556819557

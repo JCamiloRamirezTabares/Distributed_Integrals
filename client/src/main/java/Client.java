@@ -1,4 +1,9 @@
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 import model.Integral;
+import server.MonteCarlo;
+import server.Riemann;
 import ui.UIHandler;
 
 /*
@@ -19,6 +24,28 @@ public class Client {
     public static void main(String[] args) {
         initialize();
         
+        if(args.length == 0){
+            start();
+        } else{
+            if(args[0].equalsIgnoreCase("test") && args.length == 6){
+                testMode(args);
+            } else{
+                System.out.println("Otro modo");
+            }   
+        }
+    }
+
+    /*
+        Inicializa lo necesario para que trabaje el cliente (Es como el constructor)
+     */
+    private static void initialize() {
+        handlerUI = new UIHandler();
+    }
+
+    /*
+        Inicializa modo consola normal (Es el modo para ser usado por el usuario final)
+     */
+    private static void start(){
         boolean sentinel = true;
 
         while (sentinel) {
@@ -38,12 +65,12 @@ public class Client {
                         double upper = Double.parseDouble(upperRange);
 
                         if (lower >= upper) {
-                            System.out.println("El límite inferior debe ser menor que el límite superior. Inténtelo de nuevo.");
+                            System.out.println("|| El limite inferior debe ser menor que el limite superior. Intentelo de nuevo.");
                         } else {
                             validRanges = true;
                         }
                     } catch (NumberFormatException e) {
-                        System.out.println("Por favor, introduzca un número válido.");
+                        System.out.println("|| Por favor, introduzca un número válido.");
                     }
                 }
 
@@ -53,15 +80,17 @@ public class Client {
                 MonteCarlo monteCarlo = new MonteCarlo();
 
                 long startTime = System.nanoTime();
-                double res = monteCarlo.solve(integral);
+                BigDecimal res = monteCarlo.solve(integral);
                 long endTime = System.nanoTime();
                 long executionTime = endTime - startTime;
                 double executionTimeInSeconds = executionTime / 1_000_000_000.0;
 
                 System.out.println(""+
+                    "||\n"+
                     "|| La integral " + integral.toString() + " es aproximadamente: " + res
+                  + "||\n"
                 + "");
-                System.out.println("|| Tiempo de ejecución: " + executionTimeInSeconds + " segundos");
+                System.out.println("|| Latencia: " + executionTimeInSeconds + " segundos");
 
                 double throughput = 1.0 / executionTimeInSeconds;
                 System.out.println("|| Throughput: " + throughput + " integrales por segundo");
@@ -79,10 +108,54 @@ public class Client {
     }
 
     /*
-        Inicializa lo necesario para que trabaje el cliente (Es como el constructor)
+        Este es el modo para hacer pruebas directamente con los scripts
+        Lee las instrucciones del script y ejecuta el proceso
      */
-    private static void initialize() {
-        handlerUI = new UIHandler();
+    private static void testMode(String[] args){
+        handlerUI.testing();
+
+        if(args[1].equals("1")){
+            BigInteger points = new BigInteger(args[2]);
+            MonteCarlo monteCarlo = new MonteCarlo(points);
+            Integral integral = new Integral(
+                args[3], 
+                Double.parseDouble(args[4]), 
+                Double.parseDouble(args[5])
+            );
+
+            long startTime = System.nanoTime();
+
+            BigDecimal res = monteCarlo.solve(integral);
+            
+            long endTime = System.nanoTime();
+            long executionTime = endTime - startTime;
+            double executionTimeInSeconds = executionTime / 1_000_000_000.0;
+
+            System.out.println("|| " + res.doubleValue());
+            System.out.println("|| Latencia: " + executionTimeInSeconds + " segundos");
+
+        } else{
+            BigInteger partitions = new BigInteger(args[2]);
+            Riemann riemannSum = new Riemann(partitions);
+            Integral integral = new Integral(
+                args[3], 
+                Double.parseDouble(args[4]), 
+                Double.parseDouble(args[5])
+            );
+
+            long startTime = System.nanoTime();
+
+            BigDecimal res = riemannSum.solve(integral);
+
+            long endTime = System.nanoTime();
+            long executionTime = endTime - startTime;
+            double executionTimeInSeconds = executionTime / 1_000_000_000.0;
+            
+            System.out.println("|| " + res.doubleValue());
+            System.out.println("|| Latencia: " + executionTimeInSeconds + " segundos");
+        }
+
+        handlerUI.testFinished();
     }
 
     /*

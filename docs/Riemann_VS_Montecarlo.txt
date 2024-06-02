@@ -1,0 +1,41 @@
+Riemann
+100 millones de particiones
+0.33333333833333334
+Latencia: 260.1228223 segundos
+
+10 millones de particiones
+0.33333338333333495
+Latencia: 23.6146769 segundos
+
+1 millón de particiones
+0.3333338333335
+Latencia: 2.4908965 segundos
+
+===============================
+Montecarlo (Tener presente que es no determinista, entonces los valores cambian en cada ejecución)
+1000 millones de puntos
+0.33333047045884007
+Latencia: 1008.585364 segundos
+
+100 millones de puntos
+0.33335789999533394
+Latencia: 93.6505687 segundos
+
+10 millones de puntos
+0.3333440818710033
+Latencia: 8.9781222 segundos
+
+1 millón de puntos
+0.3333176503816942
+Latencia: 1.1727377 segundos
+
+
+
+
+Montecarlo ponderado con mil iteraciones
+1 millón de puntos aleatorios
+0.33333229036728995
+Latencia: 1827.0552236 segundos
+
+
+

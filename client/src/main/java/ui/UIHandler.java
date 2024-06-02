@@ -71,4 +71,19 @@ public class UIHandler {
         System.out.println("|| Hasta luego, vuelve pronto :D");
     }
 
+    public void testing(){
+        System.out.println(""
+            +"||===================================================================================||\n"
+            +"|| Iniciando pruebas...                                                              ||"
+            );
+    }
+
+    public void testFinished(){
+        System.out.println(""
+            +"||===================================================================================||\n"
+            +"|| Pruebas finalizadas, revisa la carpeta docs para mas informacion                  ||\n"
+            +"||===================================================================================||"
+            );
+    } 
+
 }
