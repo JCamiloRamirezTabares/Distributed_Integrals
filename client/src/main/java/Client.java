@@ -9,9 +9,9 @@ import ui.UIHandler;
 /*
     Tareas por hacer:
     Maneje las funciones: str -> Function                                   ==> done
-    Guardar información (Función, límites de integración)                  ==> done
+    Guardar información (Función, límites de integración)                   ==> done
     Función que se encargue de pedir y guardar límites de integración       ==> done
-    Implementar métricas para el cliente
+    Implementar métricas para el cliente                                    ==> done
  */
 
 public class Client {
