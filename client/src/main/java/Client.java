@@ -50,6 +50,10 @@ public class Client {
 
         while (sentinel) {
             String input = handlerUI.functionMenu();
+            if (!isInputValid(input)) {
+                System.out.println("Input no válido. Por favor, ingrese una función válida.");
+                continue;
+            }
             String lowerRange = "";
             String upperRange = "";
 
@@ -167,5 +171,9 @@ public class Client {
         Double upperRange = Double.parseDouble(upprRange);
 
         return new Integral(function, lowerRange, upperRange);
+    }
+
+    private static boolean isInputValid(String input) {
+        return input.matches("[0-9xX\\^\\+\\-\\*/\\.\\(\\) ]+");
     }
 }
