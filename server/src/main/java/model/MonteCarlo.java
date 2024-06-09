@@ -1,30 +1,73 @@
 package model;
 
-/* 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
+import model.Integral;
 
+/*
+    Definicion del metodo monte carlo
+    Nota: Esta clase esta definida solamente para ser usada en el monolito.
+    Tan pronto se quiera distribuir, esta clase junto a la de RandomNumber debe ir en el src del 'Server'
+ */
 public class MonteCarlo {
     
-    private final double N_POINTS = 10000;
+    private BigInteger N_POINTS;
+
+    public MonteCarlo(){
+        N_POINTS =  new BigInteger("100000");
+    }
+
+    public MonteCarlo(BigInteger points){
+        N_POINTS = points;
+    }
     
 
-    public double solve(Integral integral){
+    public BigDecimal solve(Integral integral){
         double a = integral.getLowerRange();
         double b = integral.getUpperRange();
 
         RandomNumber random = new RandomNumber(a, b);
 
-        double sum = 0;
+        BigDecimal sum = BigDecimal.ZERO;
 
-        for(int i = 0; i < N_POINTS; i++){
+        BigInteger index = BigInteger.ZERO;
+
+        while(N_POINTS.compareTo(index) == 1){
             double randomNumber = random.get();
-            sum += integral.getFunction().solve(randomNumber);
+            sum = sum.add(BigDecimal.valueOf(integral.getFunction().solve(randomNumber)));
+
+
+            index = index.add(BigInteger.ONE);
         }
 
+        
 
-        return (double) ((b-a)/N_POINTS)*sum;
+
+        return (BigDecimal.valueOf(b-a).divide(new BigDecimal(N_POINTS))).multiply(sum);
+    }
+
+    public void saveResultsToFile(String filename, Integral integral, BigDecimal result) {
+        try {
+            // Asegurarse de que el directorio 'docs' exista
+            File directory = new File("docs");
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+
+            // Crear el archivo en el directorio 'docs'
+            File file = new File(directory, filename);
+            try (PrintWriter writer = new PrintWriter(new FileWriter(file, true))) {
+                writer.printf("%s, es aproximadamente: %s%n",
+                        integral.toString(), result);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
-
-*/

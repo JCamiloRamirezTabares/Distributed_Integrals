@@ -1,4 +1,5 @@
 rootProject.name = 'Distributed_Integrals'
 
 include ':server'
+include ':broker'
 include ':client'

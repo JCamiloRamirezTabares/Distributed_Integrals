@@ -1,6 +1,7 @@
 Riemann
 1000 millones de puntos
-
+0.33333333383333336
+Latencia: 4507.7486859 segundos
 
 100 millones de particiones
 0.33333333833333334

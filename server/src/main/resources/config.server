@@ -1,0 +1,14 @@
+## El endpoint se define como: Identity:protocol -h host -p port
+
+# Definicion de los proxies con los que se conectara
+## Broker (Cambiar el puerto y apuntar a donde este el obj del Broker)
+Broker.Proxy=Broker:tcp -p 9099
+
+## Se define el host con el que Ice se comunicara (Cambiar por el host donde estara el broker)
+Ice.Default.Host=localhost
+
+
+# Configuracion del Adaptador de objetos (Es basicamente donde estara el equipo escuchando llamdos remotos)
+### No se define puerto porque la idea es que ICE tome un puerto libre (Esto se hace porque habran varios servers)
+### localhost debe ser reemplazado por el host del server
+Server.Endpoints=tcp -h localhost

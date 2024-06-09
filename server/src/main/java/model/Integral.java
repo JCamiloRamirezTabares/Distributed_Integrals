@@ -8,14 +8,14 @@ import net.objecthunter.exp4j.ExpressionBuilder;
  */
 public class Integral {
     
-    private String functionnString;         // Representacion en texto de la funcion
+    private String functionString;         // Representacion en texto de la funcion
     private double lowerRange;              // Rango inferior de integracion
     private double upperRange;              // Rango inferior de integracion
     private MathFunction function;          // La funcion a integrar
 
 
     public Integral(String functionnString, double lowerRange, double upperRange){
-        this.functionnString = functionnString;
+        this.functionString = functionnString;
         this.lowerRange = lowerRange;
         this.upperRange = upperRange;
 
@@ -52,7 +52,7 @@ public class Integral {
 
     @Override
     public String toString(){
-        return "| "+functionnString + " | entre " + lowerRange + " y " + upperRange;
+        return "| "+functionString + " | entre " + lowerRange + " y " + upperRange;
     }
 
 }

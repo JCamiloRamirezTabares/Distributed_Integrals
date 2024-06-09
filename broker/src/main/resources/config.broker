@@ -1,0 +1,9 @@
+## El endpoint se define como: Identity:protocol -h host -p port
+
+## Se define el host con el que Ice se comunicara (Cambiar por el host donde estara el broker)
+Ice.Default.Host=localhost
+
+
+# Configuracion del Adaptador de objetos (Es basicamente donde estara el equipo escuchando llamdos remotos)
+### Cambiar el puerto por donde estara escuchando
+Broker.Endpoints=tcp -p 9099
