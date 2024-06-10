@@ -54,7 +54,7 @@ Resultado Esperado: pi
 1. Ejecución con 1,000 puntos:
    Resultado: 3.1981427147040593
    Latencia: 0.054 segundos (0 minutos, 0.054 segundos)
-   Decimales de precisión: 0
+   Decimales de precisión: 1
 
 2. Ejecución con 10,000 puntos:
    Resultado: 3.138421463314007
@@ -84,7 +84,7 @@ Resultado Esperado: pi
 7. Ejecución con 1,000,000,000 puntos:
    Resultado: 3.1415895821397997
    Latencia: 1599.36 segundos (26 minutos, 39.36 segundos)
-   Decimales de precisión: 3
+   Decimales de precisión: 4
 
 ===============================================================
 Integral: 2*(1-x^2)^0.5
