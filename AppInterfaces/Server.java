@@ -17,9 +17,11 @@ package AppInterfaces;
 
 public interface Server extends com.zeroc.Ice.Object
 {
-    String solveIntegral(Integral integral, com.zeroc.Ice.Current current);
+    void solveIntegral(Integral integral, com.zeroc.Ice.Current current);
 
     void printResponse(String res, com.zeroc.Ice.Current current);
+
+    double getLoad(com.zeroc.Ice.Current current);
 
     /** @hidden */
     static final String[] _iceIds =
@@ -61,11 +63,8 @@ public interface Server extends com.zeroc.Ice.Object
         istr.readPendingValues();
         inS.endReadParams();
         Integral iceP_integral = icePP_integral.value;
-        String ret = obj.solveIntegral(iceP_integral, current);
-        com.zeroc.Ice.OutputStream ostr = inS.startWriteParams();
-        ostr.writeString(ret);
-        inS.endWriteParams(ostr);
-        return inS.setResult(ostr);
+        obj.solveIntegral(iceP_integral, current);
+        return inS.setResult(inS.writeEmptyParams());
     }
 
     /**
@@ -86,9 +85,28 @@ public interface Server extends com.zeroc.Ice.Object
         return inS.setResult(inS.writeEmptyParams());
     }
 
+    /**
+     * @hidden
+     * @param obj -
+     * @param inS -
+     * @param current -
+     * @return -
+    **/
+    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_getLoad(Server obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
+    {
+        com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
+        inS.readEmptyParams();
+        double ret = obj.getLoad(current);
+        com.zeroc.Ice.OutputStream ostr = inS.startWriteParams();
+        ostr.writeDouble(ret);
+        inS.endWriteParams(ostr);
+        return inS.setResult(ostr);
+    }
+
     /** @hidden */
     final static String[] _iceOps =
     {
+        "getLoad",
         "ice_id",
         "ice_ids",
         "ice_isA",
@@ -112,25 +130,29 @@ public interface Server extends com.zeroc.Ice.Object
         {
             case 0:
             {
-                return com.zeroc.Ice.Object._iceD_ice_id(this, in, current);
+                return _iceD_getLoad(this, in, current);
             }
             case 1:
             {
-                return com.zeroc.Ice.Object._iceD_ice_ids(this, in, current);
+                return com.zeroc.Ice.Object._iceD_ice_id(this, in, current);
             }
             case 2:
             {
-                return com.zeroc.Ice.Object._iceD_ice_isA(this, in, current);
+                return com.zeroc.Ice.Object._iceD_ice_ids(this, in, current);
             }
             case 3:
             {
-                return com.zeroc.Ice.Object._iceD_ice_ping(this, in, current);
+                return com.zeroc.Ice.Object._iceD_ice_isA(this, in, current);
             }
             case 4:
             {
-                return _iceD_printResponse(this, in, current);
+                return com.zeroc.Ice.Object._iceD_ice_ping(this, in, current);
             }
             case 5:
+            {
+                return _iceD_printResponse(this, in, current);
+            }
+            case 6:
             {
                 return _iceD_solveIntegral(this, in, current);
             }

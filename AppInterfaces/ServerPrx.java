@@ -17,22 +17,22 @@ package AppInterfaces;
 
 public interface ServerPrx extends com.zeroc.Ice.ObjectPrx
 {
-    default String solveIntegral(Integral integral)
+    default void solveIntegral(Integral integral)
     {
-        return solveIntegral(integral, com.zeroc.Ice.ObjectPrx.noExplicitContext);
+        solveIntegral(integral, com.zeroc.Ice.ObjectPrx.noExplicitContext);
     }
 
-    default String solveIntegral(Integral integral, java.util.Map<String, String> context)
+    default void solveIntegral(Integral integral, java.util.Map<String, String> context)
     {
-        return _iceI_solveIntegralAsync(integral, context, true).waitForResponse();
+        _iceI_solveIntegralAsync(integral, context, true).waitForResponse();
     }
 
-    default java.util.concurrent.CompletableFuture<java.lang.String> solveIntegralAsync(Integral integral)
+    default java.util.concurrent.CompletableFuture<Void> solveIntegralAsync(Integral integral)
     {
         return _iceI_solveIntegralAsync(integral, com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
     }
 
-    default java.util.concurrent.CompletableFuture<java.lang.String> solveIntegralAsync(Integral integral, java.util.Map<String, String> context)
+    default java.util.concurrent.CompletableFuture<Void> solveIntegralAsync(Integral integral, java.util.Map<String, String> context)
     {
         return _iceI_solveIntegralAsync(integral, context, false);
     }
@@ -44,17 +44,13 @@ public interface ServerPrx extends com.zeroc.Ice.ObjectPrx
      * @param sync -
      * @return -
      **/
-    default com.zeroc.IceInternal.OutgoingAsync<java.lang.String> _iceI_solveIntegralAsync(Integral iceP_integral, java.util.Map<String, String> context, boolean sync)
+    default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_solveIntegralAsync(Integral iceP_integral, java.util.Map<String, String> context, boolean sync)
     {
-        com.zeroc.IceInternal.OutgoingAsync<java.lang.String> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "solveIntegral", null, sync, null);
-        f.invoke(true, context, null, ostr -> {
+        com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "solveIntegral", null, sync, null);
+        f.invoke(false, context, null, ostr -> {
                      ostr.writeValue(iceP_integral);
                      ostr.writePendingValues();
-                 }, istr -> {
-                     String ret;
-                     ret = istr.readString();
-                     return ret;
-                 });
+                 }, null);
         return f;
     }
 
@@ -91,6 +87,43 @@ public interface ServerPrx extends com.zeroc.Ice.ObjectPrx
         f.invoke(false, context, null, ostr -> {
                      ostr.writeString(iceP_res);
                  }, null);
+        return f;
+    }
+
+    default double getLoad()
+    {
+        return getLoad(com.zeroc.Ice.ObjectPrx.noExplicitContext);
+    }
+
+    default double getLoad(java.util.Map<String, String> context)
+    {
+        return _iceI_getLoadAsync(context, true).waitForResponse();
+    }
+
+    default java.util.concurrent.CompletableFuture<java.lang.Double> getLoadAsync()
+    {
+        return _iceI_getLoadAsync(com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
+    }
+
+    default java.util.concurrent.CompletableFuture<java.lang.Double> getLoadAsync(java.util.Map<String, String> context)
+    {
+        return _iceI_getLoadAsync(context, false);
+    }
+
+    /**
+     * @hidden
+     * @param context -
+     * @param sync -
+     * @return -
+     **/
+    default com.zeroc.IceInternal.OutgoingAsync<java.lang.Double> _iceI_getLoadAsync(java.util.Map<String, String> context, boolean sync)
+    {
+        com.zeroc.IceInternal.OutgoingAsync<java.lang.Double> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getLoad", null, sync, null);
+        f.invoke(true, context, null, null, istr -> {
+                     double ret;
+                     ret = istr.readDouble();
+                     return ret;
+                 });
         return f;
     }
 

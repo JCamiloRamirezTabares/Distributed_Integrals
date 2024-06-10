@@ -92,6 +92,44 @@ public interface BrokerPrx extends com.zeroc.Ice.ObjectPrx
         return f;
     }
 
+    default void join(int requestID, String res)
+    {
+        join(requestID, res, com.zeroc.Ice.ObjectPrx.noExplicitContext);
+    }
+
+    default void join(int requestID, String res, java.util.Map<String, String> context)
+    {
+        _iceI_joinAsync(requestID, res, context, true).waitForResponse();
+    }
+
+    default java.util.concurrent.CompletableFuture<Void> joinAsync(int requestID, String res)
+    {
+        return _iceI_joinAsync(requestID, res, com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
+    }
+
+    default java.util.concurrent.CompletableFuture<Void> joinAsync(int requestID, String res, java.util.Map<String, String> context)
+    {
+        return _iceI_joinAsync(requestID, res, context, false);
+    }
+
+    /**
+     * @hidden
+     * @param iceP_requestID -
+     * @param iceP_res -
+     * @param context -
+     * @param sync -
+     * @return -
+     **/
+    default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_joinAsync(int iceP_requestID, String iceP_res, java.util.Map<String, String> context, boolean sync)
+    {
+        com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "join", null, sync, null);
+        f.invoke(false, context, null, ostr -> {
+                     ostr.writeInt(iceP_requestID);
+                     ostr.writeString(iceP_res);
+                 }, null);
+        return f;
+    }
+
     /**
      * Contacts the remote server to verify that the object implements this type.
      * Raises a local exception if a communication error occurs.

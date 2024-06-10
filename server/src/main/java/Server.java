@@ -47,7 +47,7 @@ public class Server {
     private static void createServerPrx(Communicator communicator){
 
         ObjectAdapter adapter = communicator.createObjectAdapter("Server");
-        Object servent = new ServerServent();
+        Object servent = new ServerServent(brokerPrx);
         adapter.add(servent, Util.stringToIdentity("Server"));
         adapter.activate();
 

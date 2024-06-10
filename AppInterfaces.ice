@@ -15,13 +15,15 @@ module AppInterfaces {
     }
 
     interface Server {
-        string solveIntegral(Integral integral);
+        void solveIntegral(Integral integral);
         void printResponse(string res);
+        double getLoad();
     }
 
     interface Broker {
         void addServer(Server* server);
         void solveIntegral(Client* clientProxy, Integral integral);
+        void join(int requestID, string res);
     }
 
 }

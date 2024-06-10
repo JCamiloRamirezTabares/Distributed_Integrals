@@ -9,8 +9,7 @@ public class ServerLoadComparator implements Comparator<ServerPrx>{
 
     @Override
     public int compare(ServerPrx o1, ServerPrx o2) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'compare'");
+        return Double.compare(o1.getLoad(), o2.getLoad());
     }
     
 }

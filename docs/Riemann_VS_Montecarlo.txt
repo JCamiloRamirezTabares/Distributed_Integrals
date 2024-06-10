@@ -1,3 +1,5 @@
+Para x^2
+
 Riemann
 1000 millones de puntos
 0.33333333383333336
@@ -41,5 +43,8 @@ Montecarlo ponderado con mil iteraciones
 0.33333229036728995
 Latencia: 1827.0552236 segundos
 
+
+================================================
+Para 2*sqrt(1 - x^2)
 
 
