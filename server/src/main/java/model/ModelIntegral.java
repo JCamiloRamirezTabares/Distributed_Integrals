@@ -1,12 +1,18 @@
 package model;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.util.Random;
+
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
+import model.MonteCarlo;
 
 /*
     Esta clase define lo que es una integral (No tiene en cuenta su solucion)
  */
-public class Integral {
+public class ModelIntegral {
     
     private String functionString;         // Representacion en texto de la funcion
     private double lowerRange;              // Rango inferior de integracion
@@ -14,7 +20,7 @@ public class Integral {
     private MathFunction function;          // La funcion a integrar
 
 
-    public Integral(String functionnString, double lowerRange, double upperRange){
+    public ModelIntegral(String functionnString, double lowerRange, double upperRange){
         this.functionString = functionnString;
         this.lowerRange = lowerRange;
         this.upperRange = upperRange;

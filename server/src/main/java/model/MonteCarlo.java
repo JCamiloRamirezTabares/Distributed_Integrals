@@ -6,8 +6,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-
-import model.Integral;
+import model.ModelIntegral;
 
 /*
     Definicion del metodo monte carlo
@@ -27,7 +26,7 @@ public class MonteCarlo {
     }
     
 
-    public BigDecimal solve(Integral integral){
+    public BigDecimal solve(ModelIntegral integral){
         double a = integral.getLowerRange();
         double b = integral.getUpperRange();
 
@@ -45,13 +44,10 @@ public class MonteCarlo {
             index = index.add(BigInteger.ONE);
         }
 
-        
-
-
         return (BigDecimal.valueOf(b-a).divide(new BigDecimal(N_POINTS))).multiply(sum);
     }
 
-    public void saveResultsToFile(String filename, Integral integral, BigDecimal result) {
+    public void saveResultsToFile(String filename, ModelIntegral integral, BigDecimal result) {
         try {
             // Asegurarse de que el directorio 'docs' exista
             File directory = new File("docs");

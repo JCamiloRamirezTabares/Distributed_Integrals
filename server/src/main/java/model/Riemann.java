@@ -9,7 +9,7 @@ package model;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import model.Integral;
+import model.ModelIntegral;
 
 public class Riemann {
 
@@ -24,7 +24,7 @@ public class Riemann {
     }
 
 
-    public BigDecimal solve(Integral integral){
+    public BigDecimal solve(ModelIntegral integral){
 
         double a = integral.getLowerRange();
         double b = integral.getUpperRange();
