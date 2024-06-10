@@ -11,11 +11,11 @@ module AppInterfaces {
     }
 
     interface Client {
-        void printResponse(string integral, string res);
+        void printResponse(string integral, string res, string performance);
     }
 
     interface Server {
-        void solveIntegral(Integral integral);
+        void solveIntegral(int requestID, Integral integral);
         void printResponse(string res);
         double getLoad();
     }

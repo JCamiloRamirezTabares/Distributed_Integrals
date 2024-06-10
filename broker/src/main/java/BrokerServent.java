@@ -1,5 +1,4 @@
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,13 +14,14 @@ import model.ServerLoadComparator;
 
 public class BrokerServent implements Broker {
 
-    private final int SERVERSPERCLIENT = 2;
+    private final int SERVERSPERCLIENT = 1;
 
     private PriorityBlockingQueue<ServerPrx> servers;
     private ConcurrentHashMap<Integer, Integral> requests;
     private ConcurrentHashMap<Integer, ClientPrx> clients;
 
     private ConcurrentHashMap<Integer, List<BigDecimal>> resPerRequest;
+    private ConcurrentHashMap<Integer, List<Long>> latencyPerRequest;
     private ExecutorService poolTasks;
 
     public BrokerServent(){
@@ -29,6 +29,7 @@ public class BrokerServent implements Broker {
         requests = new ConcurrentHashMap<>();
         clients = new ConcurrentHashMap<>();
         resPerRequest = new ConcurrentHashMap<>();
+        latencyPerRequest = new ConcurrentHashMap<>();
 
         poolTasks = Executors.newCachedThreadPool();
     }
@@ -41,31 +42,69 @@ public class BrokerServent implements Broker {
 
     @Override
     public void solveIntegral(ClientPrx clientProxy, Integral integral, Current current) {
+        long startTimeBroker = System.nanoTime();
+        int integralID = integral.hashCode();
+
         if(!servers.isEmpty()){
-
-            int integralID = integral.hashCode();
-
             registerRequest(integralID, integral);
             registerClient(integralID, clientProxy);
             processRequest(integralID, integral);
-            
-            clientProxy.printResponse(integral.toString(), "Se resolvio la integral");
         } else{
             clientProxy.printResponse("", 
             "|| La integral no se pudo resolver\n"+
-            "|| Razon: No hay servidores registrados"
+            "|| Razon: No hay servidores registrados",
+            ""
             );
         }
+
+        saveTimes(integralID, startTimeBroker);
     }
 
     @Override
     public void join(int requestID, String res, Current current) {
-        
+        synchronized (this) {
+            BigDecimal partialRes = new BigDecimal(res);
+            List<BigDecimal> resClient = resPerRequest.get(requestID);
+
+            if(resClient != null){
+                resPerRequest.get(requestID).add(partialRes);
+
+                if(resPerRequest.get(requestID).size() == SERVERSPERCLIENT){
+                    BigDecimal sum = BigDecimal.ZERO;
+                    
+                    for(BigDecimal value: resPerRequest.get(requestID)){
+                        sum = sum.add(value);
+                    }
+
+                    ClientPrx client = clients.get(requestID);
+                    Integral integral = requests.get(requestID);
+
+                    long endTimeBroker = System.nanoTime();
+
+                    saveTimes(requestID, endTimeBroker);
+                    //Se limpia lo que uso el client
+                    requests.remove(requestID);
+                    clients.remove(requestID);
+                    resPerRequest.remove(requestID);
+
+                    String perfomanceReport = buildPerformance(requestID);
+
+                    client.printResponse(
+                        integral.functionnString+" entre "+integral.lowerRange+" y "+integral.upperRange, 
+                        ""+sum.doubleValue(),
+                        perfomanceReport
+                    );    
+                }
+            } else {
+                resPerRequest.put(requestID, new ArrayList<>());
+                join(requestID, res, current);
+            }
+        }
     }
 
     
     private void registerRequest(Integer requestID, Integral request){
-        requests.put(requestID, request);    
+        requests.put(requestID, request);
     }
 
     private void registerClient(Integer requestID, ClientPrx client){
@@ -89,7 +128,7 @@ public class BrokerServent implements Broker {
         List<Integral> integrals = new ArrayList<>();
 
         for(int i = 0; i < SERVERSPERCLIENT; i++){
-            integrals.add(new Integral(integral.functionnString, a + (i*div), a + (i+1*div)));
+            integrals.add(new Integral(integral.functionnString, a + (i*div), a + ((i+1)*div)));
         }
 
         return integrals;
@@ -101,43 +140,39 @@ public class BrokerServent implements Broker {
             ServerPrx server = servers.poll();
             
             Runnable task = () -> {
-                server.solveIntegral(integral);
+                server.solveIntegral(integralID, integral);
             };
 
             poolTasks.submit(task);
             servers.add(server);
         }
     }
-    
-}
 
-/*
-    private void processRequest(Integer requestID, Integral request){
-        responsesPerClient.put(requestID, BigDecimal.ZERO); // Se asigna zero a la respuesta
-        counterServersPerClients.put(requestID, new AtomicInteger(SERVERSPERCLIENT)); // Se asignan servers al client
-
-        List<Integral> subIntegrals = fork(request);
-
-        assignServers(requestID, subIntegrals);
-
-
+    private double latency(long start, long end){
+        long executionTime = end - start;
+        double executionTimeInSeconds = executionTime / 1_000_000_000.0;
+        return executionTimeInSeconds;
     }
 
-    
 
-    
-
-    private synchronized void join(Integer integralID, String res){
-        BigDecimal currentValue = responsesPerClient.get(integralID);
-        BigDecimal partialRes = new BigDecimal(res);
-        BigDecimal newValue = currentValue.add(partialRes);
-
-        responsesPerClient.put(integralID, newValue);
-
-        if(counterServersPerClients.get(integralID).decrementAndGet() == 0){
-            ClientPrx client = clients.get(integralID);
-            client.printResponse(res, res);
+    private void saveTimes(Integer requestID, long time){
+        if(latencyPerRequest.get(requestID) != null){
+            latencyPerRequest.get(requestID).add(time);
+        } else {
+            latencyPerRequest.put(requestID, new ArrayList<>());
+            latencyPerRequest.get(requestID).add(time);
         }
     }
 
-     */
+    private String buildPerformance(Integer requestID){
+        List<Long> lat = latencyPerRequest.get(requestID);
+        double latency = latency(lat.get(0), lat.get(1));
+
+        latencyPerRequest.remove(requestID);
+
+        return "|| Performance Analytics: \n"+
+               "|| Response Latency: "+latency+" segundos\n"+
+               "";
+    }
+    
+}

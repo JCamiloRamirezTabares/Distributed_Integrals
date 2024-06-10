@@ -17,7 +17,7 @@ package AppInterfaces;
 
 public interface Client extends com.zeroc.Ice.Object
 {
-    void printResponse(String integral, String res, com.zeroc.Ice.Current current);
+    void printResponse(String integral, String res, String performance, com.zeroc.Ice.Current current);
 
     /** @hidden */
     static final String[] _iceIds =
@@ -56,10 +56,12 @@ public interface Client extends com.zeroc.Ice.Object
         com.zeroc.Ice.InputStream istr = inS.startReadParams();
         String iceP_integral;
         String iceP_res;
+        String iceP_performance;
         iceP_integral = istr.readString();
         iceP_res = istr.readString();
+        iceP_performance = istr.readString();
         inS.endReadParams();
-        obj.printResponse(iceP_integral, iceP_res, current);
+        obj.printResponse(iceP_integral, iceP_res, iceP_performance, current);
         return inS.setResult(inS.writeEmptyParams());
     }
 

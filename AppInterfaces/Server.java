@@ -17,7 +17,7 @@ package AppInterfaces;
 
 public interface Server extends com.zeroc.Ice.Object
 {
-    void solveIntegral(Integral integral, com.zeroc.Ice.Current current);
+    void solveIntegral(int requestID, Integral integral, com.zeroc.Ice.Current current);
 
     void printResponse(String res, com.zeroc.Ice.Current current);
 
@@ -58,12 +58,14 @@ public interface Server extends com.zeroc.Ice.Object
     {
         com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
         com.zeroc.Ice.InputStream istr = inS.startReadParams();
+        int iceP_requestID;
         final com.zeroc.IceInternal.Holder<Integral> icePP_integral = new com.zeroc.IceInternal.Holder<>();
+        iceP_requestID = istr.readInt();
         istr.readValue(v -> icePP_integral.value = v, Integral.class);
         istr.readPendingValues();
         inS.endReadParams();
         Integral iceP_integral = icePP_integral.value;
-        obj.solveIntegral(iceP_integral, current);
+        obj.solveIntegral(iceP_requestID, iceP_integral, current);
         return inS.setResult(inS.writeEmptyParams());
     }
 

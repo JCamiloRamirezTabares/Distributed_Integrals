@@ -17,37 +17,39 @@ package AppInterfaces;
 
 public interface ServerPrx extends com.zeroc.Ice.ObjectPrx
 {
-    default void solveIntegral(Integral integral)
+    default void solveIntegral(int requestID, Integral integral)
     {
-        solveIntegral(integral, com.zeroc.Ice.ObjectPrx.noExplicitContext);
+        solveIntegral(requestID, integral, com.zeroc.Ice.ObjectPrx.noExplicitContext);
     }
 
-    default void solveIntegral(Integral integral, java.util.Map<String, String> context)
+    default void solveIntegral(int requestID, Integral integral, java.util.Map<String, String> context)
     {
-        _iceI_solveIntegralAsync(integral, context, true).waitForResponse();
+        _iceI_solveIntegralAsync(requestID, integral, context, true).waitForResponse();
     }
 
-    default java.util.concurrent.CompletableFuture<Void> solveIntegralAsync(Integral integral)
+    default java.util.concurrent.CompletableFuture<Void> solveIntegralAsync(int requestID, Integral integral)
     {
-        return _iceI_solveIntegralAsync(integral, com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
+        return _iceI_solveIntegralAsync(requestID, integral, com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
     }
 
-    default java.util.concurrent.CompletableFuture<Void> solveIntegralAsync(Integral integral, java.util.Map<String, String> context)
+    default java.util.concurrent.CompletableFuture<Void> solveIntegralAsync(int requestID, Integral integral, java.util.Map<String, String> context)
     {
-        return _iceI_solveIntegralAsync(integral, context, false);
+        return _iceI_solveIntegralAsync(requestID, integral, context, false);
     }
 
     /**
      * @hidden
+     * @param iceP_requestID -
      * @param iceP_integral -
      * @param context -
      * @param sync -
      * @return -
      **/
-    default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_solveIntegralAsync(Integral iceP_integral, java.util.Map<String, String> context, boolean sync)
+    default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_solveIntegralAsync(int iceP_requestID, Integral iceP_integral, java.util.Map<String, String> context, boolean sync)
     {
         com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "solveIntegral", null, sync, null);
         f.invoke(false, context, null, ostr -> {
+                     ostr.writeInt(iceP_requestID);
                      ostr.writeValue(iceP_integral);
                      ostr.writePendingValues();
                  }, null);

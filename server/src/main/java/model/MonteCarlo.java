@@ -7,8 +7,6 @@ import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import model.Integral;
-
 /*
     Definicion del metodo monte carlo
     Nota: Esta clase esta definida solamente para ser usada en el monolito.
@@ -44,9 +42,6 @@ public class MonteCarlo {
 
             index = index.add(BigInteger.ONE);
         }
-
-        
-
 
         return (BigDecimal.valueOf(b-a).divide(new BigDecimal(N_POINTS))).multiply(sum);
     }

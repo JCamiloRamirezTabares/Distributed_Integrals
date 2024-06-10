@@ -9,8 +9,6 @@ package model;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import model.Integral;
-
 public class Riemann {
 
     private BigInteger partitions;
@@ -44,8 +42,5 @@ public class Riemann {
 
         return sum;
     }
-
-
-
 
 }

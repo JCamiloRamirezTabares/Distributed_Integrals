@@ -17,40 +17,42 @@ package AppInterfaces;
 
 public interface ClientPrx extends com.zeroc.Ice.ObjectPrx
 {
-    default void printResponse(String integral, String res)
+    default void printResponse(String integral, String res, String performance)
     {
-        printResponse(integral, res, com.zeroc.Ice.ObjectPrx.noExplicitContext);
+        printResponse(integral, res, performance, com.zeroc.Ice.ObjectPrx.noExplicitContext);
     }
 
-    default void printResponse(String integral, String res, java.util.Map<String, String> context)
+    default void printResponse(String integral, String res, String performance, java.util.Map<String, String> context)
     {
-        _iceI_printResponseAsync(integral, res, context, true).waitForResponse();
+        _iceI_printResponseAsync(integral, res, performance, context, true).waitForResponse();
     }
 
-    default java.util.concurrent.CompletableFuture<Void> printResponseAsync(String integral, String res)
+    default java.util.concurrent.CompletableFuture<Void> printResponseAsync(String integral, String res, String performance)
     {
-        return _iceI_printResponseAsync(integral, res, com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
+        return _iceI_printResponseAsync(integral, res, performance, com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
     }
 
-    default java.util.concurrent.CompletableFuture<Void> printResponseAsync(String integral, String res, java.util.Map<String, String> context)
+    default java.util.concurrent.CompletableFuture<Void> printResponseAsync(String integral, String res, String performance, java.util.Map<String, String> context)
     {
-        return _iceI_printResponseAsync(integral, res, context, false);
+        return _iceI_printResponseAsync(integral, res, performance, context, false);
     }
 
     /**
      * @hidden
      * @param iceP_integral -
      * @param iceP_res -
+     * @param iceP_performance -
      * @param context -
      * @param sync -
      * @return -
      **/
-    default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_printResponseAsync(String iceP_integral, String iceP_res, java.util.Map<String, String> context, boolean sync)
+    default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_printResponseAsync(String iceP_integral, String iceP_res, String iceP_performance, java.util.Map<String, String> context, boolean sync)
     {
         com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "printResponse", null, sync, null);
         f.invoke(false, context, null, ostr -> {
                      ostr.writeString(iceP_integral);
                      ostr.writeString(iceP_res);
+                     ostr.writeString(iceP_performance);
                  }, null);
         return f;
     }

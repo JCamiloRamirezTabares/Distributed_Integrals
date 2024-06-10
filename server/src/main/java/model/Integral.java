@@ -50,6 +50,10 @@ public class Integral {
         return function;
     }
 
+    public String getFunctionString(){
+        return functionString;
+    }
+
     @Override
     public String toString(){
         return "| "+functionString + " | entre " + lowerRange + " y " + upperRange;
