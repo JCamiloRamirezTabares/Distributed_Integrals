@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'application'
-    id 'com.zeroc.gradle.ice-builder.slice' version '1.5.0' apply false
+    id 'com.zeroc.gradle.ice-builder.slice' version '1.4.7' apply false
 }
 
 subprojects {
@@ -19,6 +19,8 @@ subprojects {
 
     repositories {
         mavenCentral()
+        jcenter()
+        maven { url 'https://maven.google.com' }
     }
 
     dependencies {
