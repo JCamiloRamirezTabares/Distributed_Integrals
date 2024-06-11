@@ -1,6 +1,6 @@
 # Definición de los servidores, clientes y broker
-servers=("xhgrid2" "xhgrid3")
-clients=("xhgrid11" "xhgrid12")
+servers=("xhgrid4" "xhgrid5" "xhgrid6" "xhgrid8" "xhgrid9" "xhgrid10")
+clients=("xhgrid15" "xhgrid16")
 broker="xhgrid1"
 
 # Ruta de los archivos .jar para servidor y cliente

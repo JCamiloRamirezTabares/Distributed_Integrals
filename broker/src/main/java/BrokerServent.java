@@ -14,7 +14,7 @@ import model.ServerLoadComparator;
 
 public class BrokerServent implements Broker {
 
-    private final int SERVERSPERCLIENT = 1;
+    private int SERVERSPERCLIENT;
 
     private PriorityBlockingQueue<ServerPrx> servers;
     private ConcurrentHashMap<Integer, Integral> requests;
@@ -57,6 +57,26 @@ public class BrokerServent implements Broker {
             );
         }
 
+        saveTimes(integralID, startTimeBroker);
+    }
+
+    @Override
+    public void testMode(ClientPrx clientProxy, Integral integral, String option, String numberFormat, Current current) {
+        long startTimeBroker = System.nanoTime();
+        int integralID = integral.hashCode();
+        
+        if(!servers.isEmpty()){
+            registerRequest(integralID, integral);
+            registerClient(integralID, clientProxy);
+            processRequestTestMode(integralID, integral, option, numberFormat);
+        } else{
+            clientProxy.printResponse("", 
+            "|| La integral no se pudo resolver\n"+
+            "|| Razon: No hay servidores registrados",
+            ""
+            );
+        }
+        
         saveTimes(integralID, startTimeBroker);
     }
 
@@ -113,9 +133,17 @@ public class BrokerServent implements Broker {
 
     private void processRequest(Integer requestID, Integral request){
         resPerRequest.put(requestID, new ArrayList<>());
+        SERVERSPERCLIENT = servers.size();
 
         List<Integral> subIntegrals = fork(request);
         assignServers(requestID, subIntegrals);
+    }
+
+    private void processRequestTestMode(Integer requestID, Integral request, String mode, String format){
+        resPerRequest.put(requestID, new ArrayList<>());
+
+        List<Integral> subIntegrals = fork(request);
+        assignServersTest(requestID, subIntegrals, mode, format);
     }
 
 
@@ -141,6 +169,19 @@ public class BrokerServent implements Broker {
             
             Runnable task = () -> {
                 server.solveIntegral(integralID, integral);
+            };
+
+            poolTasks.submit(task);
+            servers.add(server);
+        }
+    }
+
+    private void assignServersTest(Integer integralID, List<Integral> integrals, String mode, String format){
+        for(Integral integral: integrals){
+            ServerPrx server = servers.poll();
+            
+            Runnable task = () -> {
+                server.testMode(integralID, integral, mode, format);
             };
 
             poolTasks.submit(task);
@@ -174,5 +215,7 @@ public class BrokerServent implements Broker {
                "|| Response Latency: "+latency+" segundos\n"+
                "";
     }
+
+    
     
 }

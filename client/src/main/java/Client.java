@@ -1,3 +1,5 @@
+import java.math.BigInteger;
+
 import com.zeroc.Ice.Communicator;
 import com.zeroc.Ice.Object;
 import com.zeroc.Ice.ObjectAdapter;
@@ -45,7 +47,7 @@ public class Client {
                 start();
             } else{
                 if(args[0].equalsIgnoreCase("test") && args.length == 6){
-                    //testMode(args);
+                    testMode(args);
                 } else{
                     System.out.println("Otro modo");
                 }   
@@ -134,31 +136,34 @@ public class Client {
         Este es el modo para hacer pruebas directamente con los scripts
         Lee las instrucciones del script y ejecuta el proceso
      */
-     /* 
     private static void testMode(String[] args){
         handlerUI.testing();
 
         if(args[1].equals("1")){
-            BigInteger points = new BigInteger(args[2]);
+            // Se crea la integral como objeto de ICE
+            String points = args[2];
+            handlerUI.MonteCarlo(points);
             Integral integral = new Integral(
-                args[3], 
+                args[3],
                 Double.parseDouble(args[4]), 
                 Double.parseDouble(args[5])
             );
 
-
+            // Se envia la solicitud al broker
+            brokerPrx.testMode(clientPrx, integral, "1", points);
         } else{
-            BigInteger partitions = new BigInteger(args[2]);
+
+            String partitions = args[2];
+            handlerUI.Riemann(partitions);
+           // Se crea la integral como objeto de ICE
             Integral integral = new Integral(
-                args[3], 
+                args[3],
                 Double.parseDouble(args[4]), 
                 Double.parseDouble(args[5])
             );
 
+            // Se envia la solicitud al broker
+            brokerPrx.testMode(clientPrx, integral, "1", partitions);
         }
-
-        handlerUI.testFinished();
     }
-
-    */
 }

@@ -12,7 +12,7 @@ import java.math.BigInteger;
     Nota: Esta clase esta definida solamente para ser usada en el monolito.
     Tan pronto se quiera distribuir, esta clase junto a la de RandomNumber debe ir en el src del 'Server'
  */
-public class MonteCarlo {
+public class MonteCarlo implements IntegralSolver{
     
     private BigInteger N_POINTS;
 
@@ -24,7 +24,7 @@ public class MonteCarlo {
         N_POINTS = points;
     }
     
-
+    @Override
     public BigDecimal solve(Integral integral){
         double a = integral.getLowerRange();
         double b = integral.getUpperRange();

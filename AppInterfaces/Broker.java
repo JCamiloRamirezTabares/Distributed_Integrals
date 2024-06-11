@@ -21,6 +21,8 @@ public interface Broker extends com.zeroc.Ice.Object
 
     void solveIntegral(ClientPrx clientProxy, Integral integral, com.zeroc.Ice.Current current);
 
+    void testMode(ClientPrx clientProxy, Integral integral, String option, String numberFormat, com.zeroc.Ice.Current current);
+
     void join(int requestID, String res, com.zeroc.Ice.Current current);
 
     /** @hidden */
@@ -94,6 +96,32 @@ public interface Broker extends com.zeroc.Ice.Object
      * @param current -
      * @return -
     **/
+    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_testMode(Broker obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
+    {
+        com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
+        com.zeroc.Ice.InputStream istr = inS.startReadParams();
+        ClientPrx iceP_clientProxy;
+        final com.zeroc.IceInternal.Holder<Integral> icePP_integral = new com.zeroc.IceInternal.Holder<>();
+        String iceP_option;
+        String iceP_numberFormat;
+        iceP_clientProxy = ClientPrx.uncheckedCast(istr.readProxy());
+        istr.readValue(v -> icePP_integral.value = v, Integral.class);
+        iceP_option = istr.readString();
+        iceP_numberFormat = istr.readString();
+        istr.readPendingValues();
+        inS.endReadParams();
+        Integral iceP_integral = icePP_integral.value;
+        obj.testMode(iceP_clientProxy, iceP_integral, iceP_option, iceP_numberFormat, current);
+        return inS.setResult(inS.writeEmptyParams());
+    }
+
+    /**
+     * @hidden
+     * @param obj -
+     * @param inS -
+     * @param current -
+     * @return -
+    **/
     static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_join(Broker obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
     {
         com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
@@ -116,7 +144,8 @@ public interface Broker extends com.zeroc.Ice.Object
         "ice_isA",
         "ice_ping",
         "join",
-        "solveIntegral"
+        "solveIntegral",
+        "testMode"
     };
 
     /** @hidden */
@@ -159,6 +188,10 @@ public interface Broker extends com.zeroc.Ice.Object
             case 6:
             {
                 return _iceD_solveIntegral(this, in, current);
+            }
+            case 7:
+            {
+                return _iceD_testMode(this, in, current);
             }
         }
 

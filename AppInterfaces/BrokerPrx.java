@@ -92,6 +92,49 @@ public interface BrokerPrx extends com.zeroc.Ice.ObjectPrx
         return f;
     }
 
+    default void testMode(ClientPrx clientProxy, Integral integral, String option, String numberFormat)
+    {
+        testMode(clientProxy, integral, option, numberFormat, com.zeroc.Ice.ObjectPrx.noExplicitContext);
+    }
+
+    default void testMode(ClientPrx clientProxy, Integral integral, String option, String numberFormat, java.util.Map<String, String> context)
+    {
+        _iceI_testModeAsync(clientProxy, integral, option, numberFormat, context, true).waitForResponse();
+    }
+
+    default java.util.concurrent.CompletableFuture<Void> testModeAsync(ClientPrx clientProxy, Integral integral, String option, String numberFormat)
+    {
+        return _iceI_testModeAsync(clientProxy, integral, option, numberFormat, com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
+    }
+
+    default java.util.concurrent.CompletableFuture<Void> testModeAsync(ClientPrx clientProxy, Integral integral, String option, String numberFormat, java.util.Map<String, String> context)
+    {
+        return _iceI_testModeAsync(clientProxy, integral, option, numberFormat, context, false);
+    }
+
+    /**
+     * @hidden
+     * @param iceP_clientProxy -
+     * @param iceP_integral -
+     * @param iceP_option -
+     * @param iceP_numberFormat -
+     * @param context -
+     * @param sync -
+     * @return -
+     **/
+    default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_testModeAsync(ClientPrx iceP_clientProxy, Integral iceP_integral, String iceP_option, String iceP_numberFormat, java.util.Map<String, String> context, boolean sync)
+    {
+        com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "testMode", null, sync, null);
+        f.invoke(false, context, null, ostr -> {
+                     ostr.writeProxy(iceP_clientProxy);
+                     ostr.writeValue(iceP_integral);
+                     ostr.writeString(iceP_option);
+                     ostr.writeString(iceP_numberFormat);
+                     ostr.writePendingValues();
+                 }, null);
+        return f;
+    }
+
     default void join(int requestID, String res)
     {
         join(requestID, res, com.zeroc.Ice.ObjectPrx.noExplicitContext);

@@ -9,7 +9,7 @@ package model;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-public class Riemann {
+public class Riemann implements IntegralSolver{
 
     private BigInteger partitions;
 
@@ -22,6 +22,7 @@ public class Riemann {
     }
 
 
+    @Override
     public BigDecimal solve(Integral integral){
 
         double a = integral.getLowerRange();

@@ -3,9 +3,12 @@ import com.zeroc.Ice.Current;
 import AppInterfaces.BrokerPrx;
 import AppInterfaces.Integral;
 import AppInterfaces.Server;
+import model.IntegralSolver;
 import model.MonteCarlo;
+import model.Riemann;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,14 +23,14 @@ public class ServerServent implements Server {
     private ForkJoinPool forkJoinPool;
     private double load;
     private BrokerPrx brokerPrx;
-
-    private static MonteCarlo monteCarlo;
+    private static IntegralSolver solver;
+    
 
     public ServerServent(BrokerPrx brokerPrx) {
         load = 0;
         this.brokerPrx = brokerPrx;
         forkJoinPool = new ForkJoinPool(NUM_TASKS);
-        monteCarlo = new MonteCarlo();
+        solver = new MonteCarlo();
     }
 
     //Convertir la integral de Ice en la de nuestro modelo
@@ -58,9 +61,45 @@ public class ServerServent implements Server {
         brokerPrx.join(requestID, area);
     }
 
+    //Callback para cuando se registra
     @Override
     public void printResponse(String res, Current current) {
         System.out.println(res);
+    }
+
+    @Override
+    public void testMode(int requestID, Integral integral, String option, String numberFormat, Current current) {
+        load = load++;
+        model.Integral modelIntegral = new model.Integral(
+                integral.functionnString,
+                integral.lowerRange,
+                integral.upperRange
+        );
+
+        if(option.equals("1")){
+            BigInteger points = new BigInteger(numberFormat);
+            solver = new MonteCarlo(points);
+        } else{
+            BigInteger partitions = new BigInteger(numberFormat);
+            solver = new Riemann(partitions);
+        }
+
+        // Crear 10 nuevas integrales (del modelo) a partir de la que se recibe
+        List<model.Integral> integralTasks = createIntegralTasks(modelIntegral);
+
+        // Ejecutar las tareas en paralelo usando Fork/Join
+        BigDecimal totalArea = BigDecimal.ZERO;
+        try {
+            totalArea = forkJoinPool.submit(() -> forkJoinPool.invoke(new IntegralTask(integralTasks))).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        
+        String area = totalArea.setScale(5, RoundingMode.HALF_UP).toString();
+
+        load = load--;
+        brokerPrx.join(requestID, area);
     }
 
     @Override
@@ -85,16 +124,18 @@ public class ServerServent implements Server {
     private static class IntegralTask extends RecursiveTask<BigDecimal> {
 
         private List<model.Integral> integralTasks;
+        
 
         IntegralTask(List<model.Integral> integralTasks) {
             this.integralTasks = integralTasks;
+            
         }
 
         @Override
         protected BigDecimal compute() {
             if (integralTasks.size() == 1) {
                 model.Integral integral = integralTasks.get(0);
-                return monteCarlo.solve(integral);
+                return solver.solve(integral);
             }
 
             int middle = integralTasks.size() / 2;
@@ -111,4 +152,6 @@ public class ServerServent implements Server {
             return leftResult.add(rightResult);
         }
     }
+
+    
 }

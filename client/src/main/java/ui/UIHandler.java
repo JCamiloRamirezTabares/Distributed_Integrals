@@ -78,6 +78,20 @@ public class UIHandler {
             );
     }
 
+    public void MonteCarlo(String format){
+        System.out.println(""
+            +"|| Iniciando MonteCarlo con "+format+" puntos...                                     ||"
+            +"||===================================================================================||\n"
+        );
+    }
+
+    public void Riemann(String format){
+        System.out.println(""
+            +"|| Iniciando Riemann con "+format+" particiones...                                   ||"
+            +"||===================================================================================||\n"
+        );
+    }
+
     public void testFinished(){
         System.out.println(""
             +"||===================================================================================||\n"

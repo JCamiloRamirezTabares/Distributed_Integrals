@@ -56,6 +56,49 @@ public interface ServerPrx extends com.zeroc.Ice.ObjectPrx
         return f;
     }
 
+    default void testMode(int requestID, Integral integral, String option, String numberFormat)
+    {
+        testMode(requestID, integral, option, numberFormat, com.zeroc.Ice.ObjectPrx.noExplicitContext);
+    }
+
+    default void testMode(int requestID, Integral integral, String option, String numberFormat, java.util.Map<String, String> context)
+    {
+        _iceI_testModeAsync(requestID, integral, option, numberFormat, context, true).waitForResponse();
+    }
+
+    default java.util.concurrent.CompletableFuture<Void> testModeAsync(int requestID, Integral integral, String option, String numberFormat)
+    {
+        return _iceI_testModeAsync(requestID, integral, option, numberFormat, com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
+    }
+
+    default java.util.concurrent.CompletableFuture<Void> testModeAsync(int requestID, Integral integral, String option, String numberFormat, java.util.Map<String, String> context)
+    {
+        return _iceI_testModeAsync(requestID, integral, option, numberFormat, context, false);
+    }
+
+    /**
+     * @hidden
+     * @param iceP_requestID -
+     * @param iceP_integral -
+     * @param iceP_option -
+     * @param iceP_numberFormat -
+     * @param context -
+     * @param sync -
+     * @return -
+     **/
+    default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_testModeAsync(int iceP_requestID, Integral iceP_integral, String iceP_option, String iceP_numberFormat, java.util.Map<String, String> context, boolean sync)
+    {
+        com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "testMode", null, sync, null);
+        f.invoke(false, context, null, ostr -> {
+                     ostr.writeInt(iceP_requestID);
+                     ostr.writeValue(iceP_integral);
+                     ostr.writeString(iceP_option);
+                     ostr.writeString(iceP_numberFormat);
+                     ostr.writePendingValues();
+                 }, null);
+        return f;
+    }
+
     default void printResponse(String res)
     {
         printResponse(res, com.zeroc.Ice.ObjectPrx.noExplicitContext);

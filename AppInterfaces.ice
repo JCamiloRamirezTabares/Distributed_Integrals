@@ -16,6 +16,7 @@ module AppInterfaces {
 
     interface Server {
         void solveIntegral(int requestID, Integral integral);
+        void testMode(int requestID, Integral integral, string option, string numberFormat);
         void printResponse(string res);
         double getLoad();
     }
@@ -23,6 +24,7 @@ module AppInterfaces {
     interface Broker {
         void addServer(Server* server);
         void solveIntegral(Client* clientProxy, Integral integral);
+        void testMode(Client* clientProxy, Integral integral, string option, string numberFormat);
         void join(int requestID, string res);
     }
 
