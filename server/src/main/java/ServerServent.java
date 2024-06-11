@@ -33,6 +33,7 @@ public class ServerServent implements Server {
     //Convertir la integral de Ice en la de nuestro modelo
     @Override
     public void solveIntegral(int requestID, Integral integral, Current current) {
+        load = load++;
         model.Integral modelIntegral = new model.Integral(
                 integral.functionnString,
                 integral.lowerRange,
@@ -53,6 +54,7 @@ public class ServerServent implements Server {
         
         String area = totalArea.setScale(5, RoundingMode.HALF_UP).toString();
 
+        load = load--;
         brokerPrx.join(requestID, area);
     }
 
