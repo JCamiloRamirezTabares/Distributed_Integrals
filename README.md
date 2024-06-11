@@ -1,31 +1,41 @@
-# Integrales Distribuidas
+# Sistema de Integración de Funciones
 
-En grupos de 4, diseñar e implementar un sistema de software que permita a los usuarios aproximar integrales definidas utilizando diferentes métodos numéricos. Los estudiantes serán responsables de elegir la estrategia de aproximación que consideren más adecuada, basándose en resultados de pruebas.
+## Descripción
+Este sistema calcula la integral definida de funciones matemáticas ingresadas por el usuario. La computación se realiza de manera distribuida a través de múltiples servidores para optimizar el rendimiento.
 
- Como mínimo, debe tener:
+## Integrantes
+- Juan Camilo Ramírez
+- Juan Felipe Castillo
+- Santiago Prado
+- Juan Diego Lora
 
-- Un  "cliente" que pida la función que se desea integrar junto con los rangos de integración. Puede implementar un interprete para leer la función o usar una libreria externa (investigar).
+## Requisitos
+- **Java**: Debes tener Java instalado en tu máquina para ejecutar los archivos `.jar`.
+- **Gradle**: Necesario para compilar el proyecto.
 
-- El dist_integ debe implementar una estrategia de aproximación de integrales que combine varios patrones de diseño, con estructuras de almacenamiento y procesamiento distribuidos, cuidadosamente escogidos para que la estrategia logre un balance entre los principales drivers arquitectónicos de performance y precisión. 
+## Compilación
+Para compilar el proyecto y crear los archivos `.jar`, ejecuta el siguiente comando en la terminal:
 
-- Ejecución y análisis de experimentos para determinar a partir de qué cantidad de datos vale la pena distribuir, variables y valores que afectan los resultados, y la capacidad de aproximación del  sistema.
+gradle build
 
-Para medir la aceleración de la distribución, deben hacer varios experimentos:
+Este comando generará tres archivos JAR: `broker.jar`, `server.jar`, `client.jar`.
 
-- La ejecución, además de hacerla en 1 máquina, deben hacerla distribuida en 4, 8 y 12 máquinas. Estas se denominan configuraciones.
-- En cada configuración, deben ejecutar el sistema para al menos 3 funciones diferentes.
-- En cada configuración deben variar los parámetros de el método de aproximación elegido, al menos 3 valores diferentes por cada uno.
+## Ejecución
+Sigue estos pasos para ejecutar el sistema correctamente:
 
-Con lo anterior, deben entregar un .zip con los siguientes folders:
+1. **Broker**:
 
-- ./dep: Diagrama de deployment de la solución. En una versión del diagrama puesta en PowerPoint, deben identificar y explicar(además de ser reconocibles):
-- Estructura de flynn: Almacenamiento (UMA, NUMA, NORMA) y Procesamiento (SIMD, MISD, MIMD)
-- Estilos de arquitectura
-- Patrones de diseño
-- Identificar el mapeo de los componentes de la arquitectura a los tipos de componentes de cada patrón/estilo.
-- Explicación de la estrategia para resolver el problema en forma distribuida.
-- ./src: código fuente de los proyectos en la estructura definida por convención.
-- ./README con instrucciones de compilación y ejecución, y los nombres de los integrantes.
-- ./doc: Informe en word incluyendo:
-  - (Excel con la tabla de valores de conf-parmas vs tiempos vs. precisión, y respectiva gráfica XY comparativa de las n ejecuciones;
-  - Un análisis del resultado comparativo de esas ejecuciones). 
+java -jar broker.jar
+
+Ejecuta el broker primero para que esté activo cuando los otros componentes intenten conectarse.
+
+2. **Servidores**:
+java -jar server.jar
+Puedes iniciar múltiples instancias del servidor en diferentes terminales si deseas mejorar el rendimiento.
+
+3. **Cliente**:
+java -jar client.jar
+Inicia el cliente para interactuar con el sistema y calcular integrales.
+
+## Uso
+Una vez que el cliente está en ejecución, sigue las instrucciones en la consola para ingresar la función matemática y los rangos de integración. El sistema calculará y devolverá el resultado de la integral definida.
