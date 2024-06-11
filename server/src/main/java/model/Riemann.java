@@ -14,7 +14,7 @@ public class Riemann implements IntegralSolver{
     private BigInteger partitions;
 
     public Riemann(){
-        partitions = new BigInteger("100000");
+        partitions = new BigInteger("1000000");
     }
 
     public Riemann(BigInteger partitions){

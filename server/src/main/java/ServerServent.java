@@ -30,7 +30,7 @@ public class ServerServent implements Server {
         load = 0;
         this.brokerPrx = brokerPrx;
         forkJoinPool = new ForkJoinPool(NUM_TASKS);
-        solver = new MonteCarlo();
+        solver = new Riemann();
     }
 
     //Convertir la integral de Ice en la de nuestro modelo
@@ -55,7 +55,7 @@ public class ServerServent implements Server {
         }
 
         
-        String area = totalArea.setScale(5, RoundingMode.HALF_UP).toString();
+        String area = totalArea.toString();
 
         load = load--;
         brokerPrx.join(requestID, area);
@@ -96,7 +96,7 @@ public class ServerServent implements Server {
         }
 
         
-        String area = totalArea.setScale(5, RoundingMode.HALF_UP).toString();
+        String area = totalArea.toString();
 
         load = load--;
         brokerPrx.join(requestID, area);

@@ -64,7 +64,7 @@ public class BrokerServent implements Broker {
     public void testMode(ClientPrx clientProxy, Integral integral, String option, String numberFormat, Current current) {
         long startTimeBroker = System.nanoTime();
         int integralID = integral.hashCode();
-        
+
         if(!servers.isEmpty()){
             registerRequest(integralID, integral);
             registerClient(integralID, clientProxy);
@@ -141,6 +141,7 @@ public class BrokerServent implements Broker {
 
     private void processRequestTestMode(Integer requestID, Integral request, String mode, String format){
         resPerRequest.put(requestID, new ArrayList<>());
+        SERVERSPERCLIENT = servers.size();
 
         List<Integral> subIntegrals = fork(request);
         assignServersTest(requestID, subIntegrals, mode, format);
@@ -179,7 +180,6 @@ public class BrokerServent implements Broker {
     private void assignServersTest(Integer integralID, List<Integral> integrals, String mode, String format){
         for(Integral integral: integrals){
             ServerPrx server = servers.poll();
-            
             Runnable task = () -> {
                 server.testMode(integralID, integral, mode, format);
             };

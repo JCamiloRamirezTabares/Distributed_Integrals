@@ -1,17 +1,20 @@
-## 1 = Monte Carlo
+# 1 = Monte Carlo
 ## 2 = Riemann  
-password=$(<../credentials/password.txt)
-
-N_POINTS=("1000" "10000" "100000" "1000000" "10000000" "100000000" "1000000000")
-function="x^2"
-lowerRange="0"
+POINTS=("1000")
+function="2*(1-x^2)^0.5"
+lowerRange="-1"
 upperRange="1"
-client="hgrid12"
+client="hgrid15"
 
-
-for points in "${N_POINTS[@]}"
+# Bucle for para ejecutar las operaciones en diferentes particiones
+for point in "${POINTS[@]}"
 do
-    sshpass -p "$password" ssh swarch@"$client" "
+    # Conexión SSH y ejecución del comando java
+    ssh swarch@"$client" "
     cd Documents/RyM &&
-    java -jar client.jar test 1 $points $function $lowerRange $upperRange
+    java -jar client.jar test 1 $point '$function' $lowerRange $upperRange" &
+    sleep 65
 done
+
+# Pausa de 2 minutos después de iniciar todas las sesiones SSH
+exit 0

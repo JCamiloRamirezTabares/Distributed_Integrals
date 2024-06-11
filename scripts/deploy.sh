@@ -1,5 +1,5 @@
 # Definición de los servidores, clientes y broker
-servers=("xhgrid4" "xhgrid5" "xhgrid6" "xhgrid8" "xhgrid9" "xhgrid10")
+servers=("xhgrid4")
 clients=("xhgrid15" "xhgrid16")
 broker="xhgrid1"
 
