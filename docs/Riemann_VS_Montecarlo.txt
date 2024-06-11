@@ -43,7 +43,7 @@ Latencia: 1827.0552236 segundos
 
 
 ===============================================================
-Integral: 2*(1-x^2)^0.5
+Integral: 2*(1-x^2)^0.5 entre -1.0 y 1.0
 Resultado Esperado: pi
 
 ## Script Ejecutado:
@@ -87,7 +87,7 @@ Resultado Esperado: pi
    Decimales de precisión: 4
 
 ===============================================================
-Integral: 2*(1-x^2)^0.5
+Integral: 2*(1-x^2)^0.5 entre -1.0 y 1.0
 Resultado Esperado: pi
 
 ## Script Ejecutado:
