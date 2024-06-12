@@ -170,10 +170,10 @@ public class BrokerServent implements Broker {
             
             Runnable task = () -> {
                 server.solveIntegral(integralID, integral);
+                servers.add(server);
             };
 
             poolTasks.submit(task);
-            servers.add(server);
         }
     }
 

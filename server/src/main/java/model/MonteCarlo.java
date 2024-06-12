@@ -17,7 +17,7 @@ public class MonteCarlo implements IntegralSolver{
     private BigInteger N_POINTS;
 
     public MonteCarlo(){
-        N_POINTS =  new BigInteger("100000");
+        N_POINTS =  new BigInteger("8000000");
     }
 
     public MonteCarlo(BigInteger points){
