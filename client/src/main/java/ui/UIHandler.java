@@ -85,6 +85,50 @@ public class UIHandler {
         );
     }
 
+    public String randomPoints(){
+        String points = "";
+
+        try {
+            System.out.print("|| Numero de puntos aleatorios: ");
+            points = reader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return points;
+    }
+
+    public String partitions(){
+        String partitions = "";
+
+        try {
+            System.out.print("|| Numero de particiones: ");
+            partitions = reader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return partitions;
+    }
+
+    public String solver(){
+        String solver = "";
+
+        try {
+            System.out.println(
+                "|| Metodo de Integracion: \n"+
+                "|| ( 1 ) Monte Carlo\n"+
+                "|| ( 2 ) Riemann"
+            );
+            System.out.print("|| Opcion: ");
+            solver = reader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return solver;
+    } 
+
     public void Riemann(String format){
         System.out.println(""
             +"|| Iniciando Riemann con "+format+" particiones...                                   ||"

@@ -182,10 +182,10 @@ public class BrokerServent implements Broker {
             ServerPrx server = servers.poll();
             Runnable task = () -> {
                 server.testMode(integralID, integral, mode, format);
+                servers.add(server);
             };
 
             poolTasks.submit(task);
-            servers.add(server);
         }
     }
 

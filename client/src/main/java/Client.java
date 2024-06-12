@@ -48,6 +48,8 @@ public class Client {
             } else{
                 if(args[0].equalsIgnoreCase("test") && args.length == 6){
                     testMode(args);
+                } else if(args[0].equalsIgnoreCase("test") && args.length == 1){
+                    test();
                 } else{
                     System.out.println("Otro modo");
                 }   
@@ -164,6 +166,58 @@ public class Client {
 
             // Se envia la solicitud al broker
             brokerPrx.testMode(clientPrx, integral, "1", partitions);
+        }
+    }
+
+
+    private static void test(){
+        boolean sentinel = true;
+
+        while (sentinel) {
+            String input = handlerUI.functionMenu();
+            double lowerRange = 0;
+            double upperRange = 0;
+
+            String solver = handlerUI.solver();
+
+            if (!input.equalsIgnoreCase("exit")) {
+                boolean validRanges = false;
+
+                while (!validRanges) {
+                    String lower = handlerUI.lowerRangeMenu();
+                    String upper = handlerUI.upperRangeMenu();
+
+                    try {
+                        lowerRange = Double.parseDouble(lower);
+                        upperRange = Double.parseDouble(upper);
+
+                        if (lowerRange >= upperRange) {
+                            System.out.println("|| El limite inferior debe ser menor que el limite superior. Intentelo de nuevo.");
+                        } else {
+                            validRanges = true;
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("|| Por favor, introduzca un número válido.");
+                    }
+                }
+
+                String numberFormat = "";
+
+                if(solver.equals("1")){
+                    numberFormat = handlerUI.randomPoints();
+                } else {
+                    numberFormat = handlerUI.partitions();
+                }
+
+                // Se crea la integral como objeto de ICE
+                Integral integral = new Integral(input, lowerRange, upperRange);
+
+                // Se envia la solicitud al broker
+                brokerPrx.testMode(clientPrx, integral, solver, numberFormat);   
+            } else {
+                sentinel = false;
+                handlerUI.byebye();
+            }
         }
     }
 }
